@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ msg }} - <MyFirstVueComponent /></h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
@@ -99,6 +99,8 @@ export default {
 <style scoped>
 h3 {
   margin: 40px 0 0;
+  color: green;
+  border: 1px solid red;
 }
 ul {
   list-style-type: none;
