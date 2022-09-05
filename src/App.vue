@@ -15,12 +15,33 @@
     @increase="handleIncrease(index)"
     @decrease="handleDecrease(index)"
   />
+  <BaseList :headline="fruitList.headline" :list-items="fruitList.data"
+    ><template v-slot:header
+      ><h5>{{ fruitList.headline }}</h5></template
+    >
+    {{ fruitList.introText }}
+  </BaseList>
+  <BaseList :headline="attendeeList.headline" :list-items="attendeeList.data"
+    >{{ attendeeList.introText }}
+    <template #list-item="scopedData">
+      <i>{{ scopedData.item.name }}</i> - {{ scopedData.item.age }}
+    </template>
+  </BaseList>
+  <!-- Template override mithilfe eines scoped slots -->
+  <BaseList headline="All fruits with emojis" :list-items="fruitList.data">
+    <template #list-item="scopedData"
+      ><strong>{{ scopedData.item.text }}</strong> -
+      {{ scopedData.item.emoji }}</template
+    >
+    Früchte mit <strong>Emojis</strong> in einer Liste
+  </BaseList>
 </template>
 
 <script>
 import MyFirstVueComponent from "@/components/MyFirstVueComponent.vue";
 import HelloWorld from "./components/HelloWorld.vue";
 import AttendeeCounter from "@/components/AttendeeCounter.vue";
+import BaseList from "@/components/BaseList.vue";
 
 //Wird immer gebraucht, wenn Komponente veröffentlicht werden soll
 export default {
@@ -37,6 +58,38 @@ export default {
         { text: "30-50 years", counter: 0 },
         { text: "50 > years", counter: 0 },
       ],
+      fruitList: {
+        headline: "Fruits",
+        introText: "A list of available fruits",
+        data: [
+          {
+            id: 41,
+            text: "Apple",
+            emoji: "🍏",
+          },
+          {
+            id: 22,
+            text: "Melon",
+            emoji: "🍉",
+          },
+        ],
+      },
+      attendeeList: {
+        headline: "Bootcamp Attendees",
+        introText: "A list of bootcamp attendees in 2022",
+        data: [
+          {
+            id: 41,
+            name: "John Doe",
+            age: "32",
+          },
+          {
+            id: 22,
+            name: "Jane Doe",
+            age: "33",
+          },
+        ],
+      },
     };
   },
   computed: {
@@ -50,6 +103,7 @@ export default {
     HelloWorld,
     MyFirstVueComponent,
     AttendeeCounter,
+    BaseList,
   },
   methods: {
     //Index auslesen und counter um 1 hochsetzen
