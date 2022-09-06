@@ -15,6 +15,12 @@
     @increase="handleIncrease(index)"
     @decrease="handleDecrease(index)"
   />
+  <BaseList headline="All Bookmonkey Books" :list-items="bookList"
+    ><p>A list of all the books from the API</p>
+    <template #list-item="{ item }">
+      <i>{{ item.title }}</i> - {{ item.author }}
+    </template></BaseList
+  >
   <BaseList :headline="fruitList.headline" :list-items="fruitList.data"
     ><template v-slot:header
       ><h5>{{ fruitList.headline }}</h5></template
@@ -29,7 +35,7 @@
   </BaseList>
   <!-- Template override mithilfe eines scoped slots -->
   <BaseList headline="All fruits with emojis" :list-items="fruitList.data">
-    <template #list-item="scopedData"
+    <template #list-item="{ scopedData }"
       ><strong>{{ scopedData.item.text }}</strong> -
       {{ scopedData.item.emoji }}</template
     >
@@ -48,6 +54,7 @@ export default {
   name: "App",
   data() {
     return {
+      bookList: [],
       attendeeCounters: [
         {
           text: "5-12 years",
@@ -91,6 +98,10 @@ export default {
         ],
       },
     };
+  },
+  async created() {
+    const response = await fetch("http://localhost:4730/books");
+    this.bookList = await response.json();
   },
   computed: {
     totalCount() {
